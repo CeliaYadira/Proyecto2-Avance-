@@ -1,0 +1,74 @@
+//Sonido 
+import processing.sound.*;
+SoundFile file;
+
+//Box2d
+import shiffman.box2d.*;
+import org.jbox2d.collision.shapes.*;
+import org.jbox2d.common.*;
+import org.jbox2d.dynamics.*;
+
+Box2DProcessing box2d;
+
+ArrayList<Particula> particulas;
+ArrayList<Boundary> boundaries;
+
+
+VE ve;
+
+String tiempo ="020";
+
+int p=1;
+int t;
+int intervalo =20;
+int startTime = -1;
+
+PImage img1;
+PImage img2;
+PImage img3;
+PFont  font;
+
+
+void setup(){
+  size(700,500);
+  file = new SoundFile(this,"Sonido.aif");
+  file.play();
+  
+  ve= new VE();
+
+  img1 = loadImage("img1.png");
+  img2 = loadImage("img2.png");
+  img3 = loadImage("img3.png");
+  
+  //Box2d
+  box2d = new Box2DProcessing(this);
+  box2d.createWorld();
+  box2d.setGravity(0,-200);
+  
+  particulas = new ArrayList<Particula>(); 
+  boundaries = new ArrayList<Boundary>();
+  
+  boundaries.add(new Boundary(width,height/2,10,height)); //Derecho
+  boundaries.add(new Boundary(-8,height/2,10,height)); //Izquierdo
+}
+
+
+void draw (){
+  
+  if (p==1){
+    ve.inicio();
+  }
+  
+  if(p==2){
+    ve.juego();
+    startTime = -1;
+    for (Boundary wall: boundaries) {
+    wall.display();
+    }
+  }
+  
+  if(p==3){
+    ve.conclusion();
+  }
+
+}
